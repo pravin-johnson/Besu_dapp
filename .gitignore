@@ -1,0 +1,73 @@
+# ==============================================================================
+# Hyperledger Besu Lab - .gitignore
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Blockchain Runtime & Database State
+# ------------------------------------------------------------------------------
+# Ignore Besu/Tessera blockchain database files, caches, and port lock files
+data/
+
+# ------------------------------------------------------------------------------
+# Node.js & Javascript Dependencies
+# ------------------------------------------------------------------------------
+# Ignore node_modules in all subdirectories (explorer-ui, besu-explorer, rom-token)
+node_modules/
+**/node_modules/
+
+# ------------------------------------------------------------------------------
+# Hardhat (Smart Contracts) Build Artifacts & Cache
+# ------------------------------------------------------------------------------
+rom-token/artifacts/
+rom-token/cache/
+
+# ------------------------------------------------------------------------------
+# Frontend / UI Build Output
+# ------------------------------------------------------------------------------
+explorer-ui/dist/
+explorer-ui/dist-ssr/
+
+# ------------------------------------------------------------------------------
+# Environment Variables & Private Secrets
+# ------------------------------------------------------------------------------
+# Ignore smart contract deployer private keys and local environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+rom-token/.env
+wallet/private.key
+
+# ------------------------------------------------------------------------------
+# Logs and Troubleshooting
+# ------------------------------------------------------------------------------
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ------------------------------------------------------------------------------
+# Editor & IDE Directories
+# ------------------------------------------------------------------------------
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ------------------------------------------------------------------------------
+# OS-Specific Files
+# ------------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini

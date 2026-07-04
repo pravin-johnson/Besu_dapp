@@ -1,0 +1,45 @@
+{
+  "mode": "orion",
+  "useWhiteList": false,
+  "jdbc": {
+    "username": "sa",
+    "password": "",
+    "url": "jdbc:h2:./data/db;DB_CLOSE_DELAY=-1;DATABASE_TO_UPPER=FALSE",
+    "autoCreateTables": true
+  },
+  "serverConfigs": [
+    {
+      "app": "ThirdParty",
+      "enabled": true,
+      "serverAddress": "http://tessera4:9101",
+      "communicationType": "REST"
+    },
+    {
+      "app": "Q2T",
+      "enabled": true,
+      "serverAddress": "http://tessera4:9102",
+      "communicationType": "REST"
+    },
+    {
+      "app": "P2P",
+      "enabled": true,
+      "serverAddress": "http://tessera4:9103",
+      "communicationType": "REST"
+    }
+  ],
+  "peer": [
+    { "url": "http://tessera1:9103" },
+    { "url": "http://tessera2:9103" },
+    { "url": "http://tessera3:9103" },
+    { "url": "http://tessera4:9103" }
+  ],
+  "keys": {
+    "keyData": [
+      {
+        "privateKeyPath": "/keys/tessera.key",
+        "publicKeyPath": "/keys/tessera.pub"
+      }
+    ]
+  },
+  "alwaysSendTo": []
+}

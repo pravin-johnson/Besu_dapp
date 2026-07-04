@@ -1,0 +1,197 @@
+services:
+
+  validator1:
+    image: hyperledger/besu:22.1.3
+    container_name: validator1
+    hostname: validator1
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.11
+    volumes:
+      - ./qbft/networkFiles/genesis.json:/genesis.json
+      - ./nodes/validator1:/keys
+      - ./data/validator1:/opt/besu/data
+      - ./config/static-nodes.json:/opt/besu/static-nodes.json
+    command:
+      - --genesis-file=/genesis.json
+      - --data-path=/opt/besu/data
+      - --node-private-key-file=/keys/key.priv
+      - --static-nodes-file=/opt/besu/static-nodes.json
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-api=ETH,NET,WEB3,QBFT,ADMIN,EEA,PRIV,TXPOOL
+      - --rpc-http-cors-origins=all
+      - --host-allowlist=*
+      - --p2p-port=30303
+      - --privacy-enabled
+      - --privacy-url=http://tessera1:9102
+      - --privacy-public-key-file=/keys/tessera.pub
+      - --privacy-marker-transaction-signing-key-file=/keys/pmt.key
+      - --min-gas-price=0
+      - --logging=DEBUG
+    ports:
+      - "8545:8545"
+      - "30303:30303"
+    depends_on:
+      - tessera1
+
+  validator2:
+    image: hyperledger/besu:22.1.3
+    container_name: validator2
+    hostname: validator2
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.12
+    volumes:
+      - ./qbft/networkFiles/genesis.json:/genesis.json
+      - ./nodes/validator2:/keys
+      - ./data/validator2:/opt/besu/data
+      - ./config/static-nodes.json:/opt/besu/static-nodes.json
+    command:
+      - --genesis-file=/genesis.json
+      - --data-path=/opt/besu/data
+      - --node-private-key-file=/keys/key.priv
+      - --static-nodes-file=/opt/besu/static-nodes.json
+      - --p2p-port=30304
+      - --privacy-enabled
+      - --privacy-url=http://tessera2:9102
+      - --privacy-public-key-file=/keys/tessera.pub
+      - --privacy-marker-transaction-signing-key-file=/keys/pmt.key
+      - --min-gas-price=0
+    depends_on:
+      - tessera2
+
+  validator3:
+    image: hyperledger/besu:22.1.3
+    container_name: validator3
+    hostname: validator3
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.13
+    volumes:
+      - ./qbft/networkFiles/genesis.json:/genesis.json
+      - ./nodes/validator3:/keys
+      - ./data/validator3:/opt/besu/data
+      - ./config/static-nodes.json:/opt/besu/static-nodes.json
+    command:
+      - --genesis-file=/genesis.json
+      - --data-path=/opt/besu/data
+      - --node-private-key-file=/keys/key.priv
+      - --static-nodes-file=/opt/besu/static-nodes.json
+      - --p2p-port=30305
+      - --privacy-enabled
+      - --privacy-url=http://tessera3:9102
+      - --privacy-public-key-file=/keys/tessera.pub
+      - --privacy-marker-transaction-signing-key-file=/keys/pmt.key
+      - --min-gas-price=0
+    depends_on:
+      - tessera3
+
+  validator4:
+    image: hyperledger/besu:22.1.3
+    container_name: validator4
+    hostname: validator4
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.14
+    volumes:
+      - ./qbft/networkFiles/genesis.json:/genesis.json
+      - ./nodes/validator4:/keys
+      - ./data/validator4:/opt/besu/data
+      - ./config/static-nodes.json:/opt/besu/static-nodes.json
+    command:
+      - --genesis-file=/genesis.json
+      - --data-path=/opt/besu/data
+      - --node-private-key-file=/keys/key.priv
+      - --static-nodes-file=/opt/besu/static-nodes.json
+      - --p2p-port=30306
+      - --privacy-enabled
+      - --privacy-url=http://tessera4:9102
+      - --privacy-public-key-file=/keys/tessera.pub
+      - --privacy-marker-transaction-signing-key-file=/keys/pmt.key
+      - --min-gas-price=0
+    depends_on:
+      - tessera4
+
+  db:
+    image: postgres:15
+    container_name: besu-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: besu_explorer
+    ports:
+      - "5433:5432"
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.30
+  tessera1:
+    image: quorumengineering/tessera:latest
+    container_name: tessera1
+    hostname: tessera1
+    platform: linux/amd64
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.21
+    volumes:
+      - ./nodes/validator1:/keys
+      - ./data/tessera1:/opt/tessera/data
+    command:
+      - --configfile
+      - /keys/tessera.json
+    ports:
+      - "9101:9101"
+
+  tessera2:
+    image: quorumengineering/tessera:latest
+    container_name: tessera2
+    hostname: tessera2
+    platform: linux/amd64
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.22
+    volumes:
+      - ./nodes/validator2:/keys
+      - ./data/tessera2:/opt/tessera/data
+    command:
+      - --configfile
+      - /keys/tessera.json
+
+  tessera3:
+    image: quorumengineering/tessera:latest
+    container_name: tessera3
+    hostname: tessera3
+    platform: linux/amd64
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.23
+    volumes:
+      - ./nodes/validator3:/keys
+      - ./data/tessera3:/opt/tessera/data
+    command:
+      - --configfile
+      - /keys/tessera.json
+
+  tessera4:
+    image: quorumengineering/tessera:latest
+    container_name: tessera4
+    hostname: tessera4
+    platform: linux/amd64
+    networks:
+      besu-net:
+        ipv4_address: 172.18.0.24
+    volumes:
+      - ./nodes/validator4:/keys
+      - ./data/tessera4:/opt/tessera/data
+    command:
+      - --configfile
+      - /keys/tessera.json
+
+networks:
+  besu-net:
+    external: true
+
+
+
+    
